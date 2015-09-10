@@ -23,7 +23,7 @@ import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 import com.mnubo.java.sdk.client.models.SmartObject;
 import com.mnubo.java.sdk.client.spi.ObjectsSDK;
 
-public class ObjectsSDKServices extends AbstractSDKService implements ObjectsSDK {
+class ObjectsSDKServices extends AbstractSDKService implements ObjectsSDK {
     ObjectsSDKServices(RestTemplate template, CredentialHandler credential, MnuboSDKConfig config) {
         super(template, credential, config);
     }

@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package com.mnubo.java.sdk.client.factory;
+package com.mnubo.java.sdk.client.services;
 
 import static com.mnubo.java.sdk.client.Constants.AUTHENTICATION_PORT;
 import static com.mnubo.java.sdk.client.Constants.HOST_NAME;
@@ -40,13 +40,26 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
-import com.mnubo.java.sdk.client.services.MnuboSDKClientImpl;
 import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 
+/**
+ * MnuboSDKFactory. This build a MnuboSDKClient instance.
+ *
+ * @author Mauro Arias
+ * @since 2015/07/22
+ */
 public abstract class MnuboSDKFactory {
     private static final MnuboSDKConfig config = new MnuboSDKConfig();
     private static MnuboSDKClient client = null;
 
+    /**
+     * returns a mnubo sdk client to send request to mnubo servers from a property
+     * instance.
+     *
+     * @param properties: property instance.
+     * @return MnuboSDKClient: mnubo sdk client instance.
+     *
+     */
     public static MnuboSDKClient getAdvanceClient(Properties properties) {
         validNotNull(properties, "Configuration properties instance");
         if (properties.containsKey(HOST_NAME)) {
@@ -98,6 +111,14 @@ public abstract class MnuboSDKFactory {
         return client;
     }
 
+    /**
+     * returns a mnubo sdk client to send request to mnubo servers from a InputStream
+     * instance.
+     *
+     * @param config: InputStream instance.
+     * @return MnuboSDKClient: mnubo sdk client instance.
+     *
+     */
     public static MnuboSDKClient getAdvanceClient(InputStream config) throws IOException {
         validNotNull(config, "configuration strimming instance");
         Properties properties = new Properties();
@@ -106,25 +127,28 @@ public abstract class MnuboSDKFactory {
 
     }
 
+    /**
+     * returns a mnubo sdk client to send request to mnubo servers from a File instance.
+     *
+     * @param configFile: File instance.
+     * @return MnuboSDKClient: mnubo sdk client instance.
+     *
+     */
     public static MnuboSDKClient getAdvanceClient(File configFile) throws IOException {
         validIsFile(configFile);
         FileInputStream config = new FileInputStream(configFile);
         return getAdvanceClient(config);
     }
 
-    /***
-     * Returns an Image object that can then be painted on the screen. The url argument
-     * must specify an absolute {@link URL}. The name argument is a specifier that is
-     * relative to the url argument.
-     * <p>
-     * This method always returns immediately, whether or not the image exists. When this
-     * applet attempts to draw the image on the screen, the data will be loaded. The
-     * graphics primitives that draw the image will incrementally paint on the screen.
+    /**
+     * returns a mnubo sdk client to send request to mnubo servers from a basic
+     * configuration. This uses default parameters
      *
-     * @param url an absolute URL giving the base location of the image
-     * @param name the location of the image, relative to the url argument
-     * @return the image at the specified URL
-     * @see Image
+     * @param hostName: mnubo's servers.
+     * @param securityConsumerKey: unique identity key provided by mnubo.
+     * @param securityConsumerSecret: secret key provided by mnubo.
+     * @return MnuboSDKClient: mnubo sdk client instance.
+     *
      */
     public static MnuboSDKClient getClient(String hostName, String securityConsumerKey, String securityConsumerSecret) {
         validIsBlank(hostName, "hostname property canno be null.");

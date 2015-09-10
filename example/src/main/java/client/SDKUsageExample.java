@@ -20,10 +20,10 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 
-import com.mnubo.java.sdk.client.factory.MnuboSDKFactory;
 import com.mnubo.java.sdk.client.models.Event;
 import com.mnubo.java.sdk.client.models.Owner;
 import com.mnubo.java.sdk.client.models.SmartObject;
+import com.mnubo.java.sdk.client.services.MnuboSDKFactory;
 import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 
 public class SDKUsageExample {

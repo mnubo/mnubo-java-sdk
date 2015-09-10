@@ -23,11 +23,11 @@ import java.util.List;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.mnubo.java.sdk.client.factory.MnuboSDKFactory;
 import com.mnubo.java.sdk.client.mapper.SDKMapperUtils;
 import com.mnubo.java.sdk.client.models.Event;
 import com.mnubo.java.sdk.client.models.Owner;
 import com.mnubo.java.sdk.client.models.SmartObject;
+import com.mnubo.java.sdk.client.services.MnuboSDKFactory;
 import com.mnubo.java.sdk.client.spi.EventsSDK;
 import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 import com.mnubo.java.sdk.client.spi.ObjectsSDK;

@@ -22,12 +22,12 @@ import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 import com.mnubo.java.sdk.client.spi.ObjectsSDK;
 import com.mnubo.java.sdk.client.spi.OwnersSDK;
 
-public final class MnuboSDKClientImpl implements MnuboSDKClient {
+final class MnuboSDKClientImpl implements MnuboSDKClient {
     private final ObjectsSDK objectCLient;
     private final OwnersSDK ownerCLient;
     private final EventsSDK eventCLient;
 
-    public MnuboSDKClientImpl(MnuboSDKConfig config) {
+    MnuboSDKClientImpl(MnuboSDKConfig config) {
         // config file
         config.isInitialized();
 

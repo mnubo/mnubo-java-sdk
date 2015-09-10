@@ -26,7 +26,7 @@ import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 import com.mnubo.java.sdk.client.models.Event;
 import com.mnubo.java.sdk.client.spi.EventsSDK;
 
-public class EventsSDKServices extends AbstractSDKService implements EventsSDK {
+class EventsSDKServices extends AbstractSDKService implements EventsSDK {
 
     private final String EVENT_PATH = "/events";
 

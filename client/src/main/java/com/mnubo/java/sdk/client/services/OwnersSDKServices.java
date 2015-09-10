@@ -21,7 +21,7 @@ import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 import com.mnubo.java.sdk.client.models.Owner;
 import com.mnubo.java.sdk.client.spi.OwnersSDK;
 
-public class OwnersSDKServices extends AbstractSDKService implements OwnersSDK {
+class OwnersSDKServices extends AbstractSDKService implements OwnersSDK {
 
     private final String OWNER_PATH = "/owners";
 
