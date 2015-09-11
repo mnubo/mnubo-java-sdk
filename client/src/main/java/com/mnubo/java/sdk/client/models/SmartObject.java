@@ -33,25 +33,26 @@ import org.joda.time.DateTime;
 public class SmartObject {
 
     /**
-     * device_ID Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #DEVICE_ID} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String DEVICE_ID = "x_device_id";
 
     /**
-     * object_type Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #OBJECT_TYPE} Constant key used during the deserialization and
+     * serialization of json files.
      */
     public static final String OBJECT_TYPE = "x_object_type";
 
     /**
-     * Registration_date Constant key used during the deserialization & serialization of
-     * json files.
+     * {@value #REGISTRATION_DATE} Constant key used during the deserialization and
+     * serialization of json files.
      */
     public static final String REGISTRATION_DATE = "x_registration_date";
 
     /**
-     * Owner Constant key used during the deserialization & serialization of json files.
+     * {@value #OWNER} Constant key used during the deserialization and serialization of
+     * json files.
      */
     public static final String OWNER = "x_owner";
 
@@ -174,9 +175,10 @@ public class SmartObject {
         }
 
         /**
-         * Build the immutable SmartObject with parameters set. Note that Device_Id &
+         * Build the immutable SmartObject with parameters set. Note that Device_Id and
          * Object_type parameters are mandatory.
          *
+         * @return SmartObject: immutable Smart Object instance built.
          */
         public SmartObject build() {
             return new SmartObject(deviceId, objectType, registrationDate, owner, attributes);

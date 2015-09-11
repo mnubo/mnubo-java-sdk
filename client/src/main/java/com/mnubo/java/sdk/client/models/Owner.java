@@ -32,20 +32,20 @@ import org.joda.time.DateTime;
 public class Owner {
 
     /**
-     * Registration_date Constant key used during the deserialization & serialization of
-     * json files.
+     * {@value #REGISTRATION_DATE} Constant key used during the deserialization and
+     * serialization of json files.
      */
     public static final String REGISTRATION_DATE = "x_registration_date";
 
     /**
-     * password Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #PASSWORD} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String PASSWORD = "x_password";
 
     /**
-     * username Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #USERNAME} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String USERNAME = "username";
 
@@ -152,6 +152,7 @@ public class Owner {
          * Build the immutable Owner instance with the parameters set. Note that username
          * parameter is mandatory.
          *
+         * @return Owner: immutable Owner instance built
          */
         public Owner build() {
             return new Owner(username, password, registrationDate, attributes);

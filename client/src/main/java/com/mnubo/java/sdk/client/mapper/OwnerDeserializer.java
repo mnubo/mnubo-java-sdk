@@ -43,7 +43,7 @@ public class OwnerDeserializer extends StdDeserializer<Owner> {
             JsonProcessingException {
         Owner.OwnerBuilder builder = Owner.builder();
 
-        Map<String, Object> items = SDKMapperUtils.readValuesAsMapObject(jsonParser);
+        Map<String, Object> items = SDKMapperUtils.readValuesAsMap(jsonParser, String.class, Object.class);
         for (Map.Entry<String, Object> entry : items.entrySet()) {
             if (entry.getKey().equals(USERNAME)) {
                 builder.withUsername(entry.getValue().toString());

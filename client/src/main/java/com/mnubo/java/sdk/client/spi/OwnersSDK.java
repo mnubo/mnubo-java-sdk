@@ -27,7 +27,7 @@ public interface OwnersSDK {
     /**
      * Allows create owners.
      *
-     * @param Owner, Owner bean to be created.
+     * @param owner, Owner bean to be created.
      */
     void create(Owner owner);
 

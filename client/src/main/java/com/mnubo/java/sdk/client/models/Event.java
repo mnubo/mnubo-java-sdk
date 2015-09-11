@@ -33,25 +33,26 @@ import org.joda.time.DateTime;
 public class Event {
 
     /**
-     * event_ID Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #EVENT_ID} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String EVENT_ID = "event_id";
 
     /**
-     * Object Constant key used during the deserialization & serialization of json files.
+     * {@value #OBJECT} Constant key used during the deserialization and serialization of
+     * json files.
      */
     public static final String OBJECT = "x_object";
 
     /**
-     * event_type Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #EVENT_TYPE} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String EVENT_TYPE = "x_event_type";
 
     /**
-     * timestamp Constant key used during the deserialization & serialization of json
-     * files.
+     * {@value #TIMESTAMP} Constant key used during the deserialization and serialization
+     * of json files.
      */
     public static final String TIMESTAMP = "x_timestamp";
 
@@ -174,7 +175,7 @@ public class Event {
         /**
          * Build the immutable event with parameters set. Note that Event_type parameter
          * is mandatory.
-         *
+         * @return Event: immutable event instance built.
          */
         public Event build() {
             return new Event(eventId, smartObject, eventType, timestamp, timeseries);

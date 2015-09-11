@@ -117,6 +117,7 @@ public abstract class MnuboSDKFactory {
      *
      * @param config: InputStream instance.
      * @return MnuboSDKClient: mnubo sdk client instance.
+     * @throws IOException if any exception occurs.
      *
      */
     public static MnuboSDKClient getAdvanceClient(InputStream config) throws IOException {
@@ -132,6 +133,7 @@ public abstract class MnuboSDKFactory {
      *
      * @param configFile: File instance.
      * @return MnuboSDKClient: mnubo sdk client instance.
+     * @throws IOException if any exception occurs.
      *
      */
     public static MnuboSDKClient getAdvanceClient(File configFile) throws IOException {

@@ -27,7 +27,7 @@ public interface ObjectsSDK {
     /**
      * Allows create SmartObjects.
      *
-     * @param Object, SmartObject bean to be created.
+     * @param object, SmartObject bean to be created.
      */
     void create(SmartObject object);
 }

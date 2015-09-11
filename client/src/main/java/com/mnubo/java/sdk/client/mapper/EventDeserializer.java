@@ -46,7 +46,7 @@ public class EventDeserializer extends StdDeserializer<Event> {
             JsonProcessingException {
         Event.EventBuilder builder = Event.builder();
 
-        Map<String, Object> items = SDKMapperUtils.readValuesAsMapObject(jsonParser);
+        Map<String, Object> items = SDKMapperUtils.readValuesAsMap(jsonParser, String.class, Object.class);
         for (Map.Entry<String, Object> entry : items.entrySet()) {
             if (entry.getKey().equals(EVENT_ID)) {
                 builder.withEventID((UUID) entry.getValue());
