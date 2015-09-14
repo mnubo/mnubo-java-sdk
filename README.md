@@ -1,179 +1,164 @@
 # mnubo Java SDK
-This Java SDK client provides you a wrapper to connect your Java application to our API.
+To connect your Java application to our API use the mnubo Java SDK.
 
-## Geting started
+## Getting started
 ---
 Include the mnubo client in your Java application using:
 
 ### Maven
-Add the following dependencies into your pom.xml:
+Add the following into your pom.xml:
 ```
 <dependency>
-	<groupId>com.mnubo</groupId>
+    <groupId>com.mnubo</groupId>
     <artifactId>java-sdk-client</artifactId>
     <scope>compile</scope>
     <version>1.1.2</version>
 </dependency>
 ```
-### Artifacts
-**Not yet available, it will be soon**.
-
 ### Download source code
-Download the source code and include it in your Java Application project. All codes are available in **mnubo-java-sdk-client**.
-
-## Configuration
----
-A number of parameters must be configured before using the mnubo client. See section usage for more information.
-
-- **Mandatory parameters:**
-    - **hostname**.- mnubo's server name, for example: ```rest.sandbox.mnubo.com```.
-    - **consumer-key**.- Your unique client identity which is provided by mnubo.
-    - **consumer-secret**.- Your secret key which is used in conjunction with the consumer key to access the mnubo server. This key is provided by mnubo.
-- **optional parameters:**
-    - **platform-port**.- mnubo's server port, by default it is ```443```.
-    - **autentication-port**.- mnubo's authentication port, by default it is ```443```.
-    - **http-protocol**.- Use "http" for unsecure connection and "https" for secure connections. By default it is https.
-    - **disable-redirect-handling**.- Disables automatic redirect handling. The default is ```false```.
-    - **disable-automatic-retries**.- Disables automatic request recovery and re-execution. The default is ```false```.
-    - **max-connections-per-route**.- Maximum connection per route value. The default is ```200```.
-    - **default-timeout**.- The number of seconds a session can be idle before it is abandoned. The default is ```30```.
-    - **connect-timeout**.- This is timeout in seconds until a connection is established. By default it is the same value the ```default-timeout```.
-    - **connection-request-timeout**.- This is timeout in seconds when requesting a connection from the connection manager. By default it is the same values as the ```default-timeout```.
-    - **socket-timeout**.- After a connection has been established this is the maximum period inactivity between two consecutive data packets). By default it take the value of ```default-timeout```.
-    - **max-total-connection** This is the maximum number of connections allowed across all routes. The default is ```200```.
+Download the source code and include it in your Java Application project. All codes are available in the **mnubo-java-sdk-client**.
 
 ## Usage
 ---
-Build a mnuboSDKClient instance. This provides all the interfaces required to use this library.
+
+### Configuration
+The following parameters must be configured before using the mnubo client:
+
+    - **hostname**.- mnubo's server name, for example: ```rest.sandbox.mnubo.com```.
+    - **consumer-key**.- Your unique client identity which is provided by mnubo.
+    - **consumer-secret**.- Your secret key which is used in conjunction with the consumer key to access the mnubo server. This key is provided by mnubo.
 
 ### Getting a "MnuboSDKClient" (client) instance
-To get a client instance use **"MnuboSDKFactory" Class**. Note that:
-1. You need only one client instance. Internally it provides you multithread support (thread safe) and a pool of connections.
-2. All initializations and configuration are done by factory class.
+To get a client instance use the **"MnuboSDKFactory" Class**. Note that you only need one client instance. We provide multithreading support and a pool of connection.
 
-There are two ways to get a client instance.:
-- **Basic**, Only 3 mandatory parameters are required – Host, consumer key and consumer secret. Please see the example below:
+There are two ways to obtain a client instance:
+
+- **Basic**
+Using the basic method three mandatory parameters are required – Host, consumer key and consumer secret. Please see the example below:
+
 
 ```
+//Example:
 //Configure constants
 private final String HOST = "rest.sandbox.mnubo.com";
 private final String CONSUMER_KEY = "your consumer key!!!";
 private final String CONSUMER_SECRET = "your consumer SECRET!!!";
 
-//getting mnubo client using simple way, taken default values.
+//Obtain a client instance using default values.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 ```
 
-- **Advanced**, this allows configure default parameters using a properties file. Please see the example below.
+- **Advanced**
+Using this method you configure mandatory and optional parameters in a properties file. If you wish to use this method please contact mnubo.
 
-```
-//property file name
-private static String CONFIG_FILE_NAME = "config.properties";
-
-//Getting mnubo client using
-MnuboSDKClient mnuboClient = MnuboSDKFactory.getAdvanceClient( new File( CONFIG_FILE_NAME ) );
-```
-
-property example file:
-
-```
-#Property file example
-client.config.hostname=rest.sandbox.mnubo.com
-client.config.platform-port=8081
-client.config.autentication-port=8089
-client.config.http-protocol=http
-client.security.consumer-key=**???**
-client.security.consumer-secret=**!!!**
-client.http.client.disable-redirect-handling=true
-client.http.client.disable-automatic-retries=true
-client.http.client.max-connections-per-route=500
-client.http.client.default-timeout=15
-#default value for connect-timeout
-#client.http.client.connect-timeout=30
-client.http.client.connection-request-timeout=10
-#default value for socket-timeout
-#client.http.client.socket-timeout=30
-client.http.client.max-total-connection=500
-```
-
-#### creating Owners
+#### Creating Owners
 To create an owner you need to:
-1. Request an OwnersSDK interface from the mnubo client instance.
+1. Request an OwnersSDK interface using the mnubo client instance.
 2. Build an owner.
 
-Here is an example:
+This example describes how to create an Owner:
 ```
-//get mnubo client using basic way.
+//Request a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Owners client interface
+//get an Owners client interface
 OwnersSDK mnuboOwnersClient = mnuboClient.getOwnerClient();
 
 //build the owner
-Owner Owner2Create = new Owner();
-Owner2Create.setUsername( "john.smith@mycompany.com" );
-Owner2Create.setPassword( "dud7#%^ddd_J" );
-Owner2Create.setRegistrationDate( DateTime.parse( "2015-01-01T00:00:00+04:00" ) );
-Owner2Create.setAttributesValue( "gender", "male" );
-Owner2Create.setAttributesValue( "height", "1.80" );
+Owner Owner2Create = Owner.builder()
+                          .withUsername("john.smith@mycompany.com")
+                          .withPassword("dud7#%^ddd_J")
+                          .withRegistrationDate(DateTime.parse("2015-01-01T00:00:00+04:00"))
+                          .withAddedAttribute("age", 35)
+                          .withAddedAttribute("gender", "male")
+                          .withAddedAttribute("height", 1.80)
+                          .build();
 
 //create the owner
 mnuboOwnersClient.create( Owner2Create );
 ```
 
-Note that the same Owner created above can be deserialized using the a flat Json file as following, "myOwnerFile.json" file:
-```
-{
-  "username":"john.smith@mycompany.com",
-  "x_password":"dud7#%^ddd_J",
-  "x_registration_date":"2015-01-01T00:00:00+04:00",
-  "gender":"male",
-  "height":"1.80"
-}
-```
-
-And create it using "SDKMapperUtils" singleton deserializer as:
+You can also create an owner using a JSON file:
 
 ```
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Owners client interface
+//get an Owners client interface
 OwnersSDK mnuboOwnersClient = mnuboClient.getOwnerClient();
 
-//read Owner from flat json file
+//read the Owner from the JSON file
 String owner2BePosted = ReadingFile( "myOwnerFile.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 Owner owner2Create = SDKMapperUtils.readValue( owner2BePosted , Owner.class );
 
 //create the owner
 mnuboOwnersClient.create( owner2Create );
 ```
 
-#### creating SmartObjects
+The JSON file "myOwnerFile.json" is as follows:
+
+```
+{
+  "username":"john.smith@mycompany.com",
+  "x_password":"dud7#%^ddd_J",
+  "x_registration_date":"2015-01-01T00:00:00+04:00",
+  "age":35,
+  "gender":"male",
+  "height":1.80
+}
+```
+
+#### Creating SmartObjects
 To create a SmartObject:
-1. Request an OwnersSDK interface from the mnubo client instance.
+1. Request an ObjectSDK interface from the mnubo client instance.
 2. Build an object.
 
 ```
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Object client interface
+//get an Object client interface
 ObjectsSDK mnuboObjectClient = mnuboClient.getObjectClient();
 
-//read Object from flat json file
-String object2BePosted = ReadingFile( "myObjectFile.json" );
+//build the owner
+SmartObject object2Create = SmartObject.builder()
+                                       .withDeviceId("connect_alpha.6hv135nw00393.1234567")
+                                       .withObjectType("gateway")
+                                       .withOwner("john.smith@mycompany.com")
+                                       .withRegistrationDate(DateTime.now())
+                                       .withAddedAttribute("partnerid", "connect_alpha")
+                                       .withAddedAttribute("business_line", "connect")
+                                       .withAddedAttribute("siteid", "6hv135nw00393")
+                                       .withAddedAttribute("site_description", "My connected House")
+                                       .build();
 
-//deserialise the json file
-SmartObject object2Create = SDKMapperUtils.readValue( object2BePosted , SmartObject.class );
-
-//create the owner
+//create the object
 mnuboObjectClient.create( object2Create );
 ```
 
-Note that this case the flat Json file, "myObjectFile.json", look like:
+You can also create an object using a JSON file
+
+```
+//get a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//get an Object client interface
+ObjectsSDK mnuboObjectClient = mnuboClient.getObjectClient();
+
+//read the Object from the JSON file
+String object2BePosted = ReadingFile( "myObjectFile.json" );
+
+//deserialise the JSON file
+SmartObject object2Create = SDKMapperUtils.readValue( object2BePosted , SmartObject.class );
+
+//create the object
+mnuboObjectClient.create( object2Create );
+```
+
+The JSON file "myObjectFile.json" is as follows:
+
 ```
 {
     "x_device_id" : "connect_alpha.6hv135nw00393.1234567",
@@ -190,71 +175,158 @@ Note that this case the flat Json file, "myObjectFile.json", look like:
 }
 ```
 
-#### Send Events
+#### Sending Events
 To send events:
 1. Request an OwnersSDK interface from the mnubo client instance.
 2. Build an event.
 
-##### Send Events to single object
+##### To send multiple events to a single object:
+
 ```
 //private String objectID = "mythermostat0301424";
 
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
-//read event from flat json file
+//build the events
+List<Event> event2Send = new ArrayList<Event>();
+Event event1 = Event.builder()
+                    .withEventType("thermostat_temperature")
+                    .withEventID(UUID.fromString("11111111-2222-3333-4444-555555555555"))
+                    .withTimestamp(DateTime.now())
+                    .withAddedTimeseries("temperature", 20)
+                    .withAddedTimeseries("errorcode", "")
+                    .withAddedTimeseries("varname", "temperature")
+                    .build();
+event2Send.add(event1);
+Event event2 = Event.builder()
+                    .withEventType("thermostat_temperature")
+                    .withEventID(UUID.fromString("11111111-2222-3333-6666-555555555555"))
+                    .withTimestamp(DateTime.now())
+                    .withAddedTimeseries("temperature", 22)
+                    .withAddedTimeseries("cause_type", "normal")
+                    .withAddedTimeseries("varname", "temperature")
+                    .build();
+event2Send.add(event2);
+
+//send the event
+mnuboEventClient.send( objectID, event2Send );
+```
+
+You can also send multiple events to a single object using a JSON file:
+
+```
+//private String objectID = "mythermostat0301424";
+
+//get a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//get an Event client interface
+EventsSDK mnuboEventClient = mnuboClient.getEventClient();
+
+//read the event from the JSON file
 String event2BeSent = ReadingFile( "myEvents.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 EventValues event2Send = SDKMapperUtils.readValue( event2BeSent , Events.class );
 
 //send the event
 mnuboEventClient.send( objectID, event2Send );
 ```
 
-Note that in this case the flat Json file, "myEventsByObjectFile.json", look like:
+The JSON file " myEventsByObjectFile.json " is as follows:
+
 ```
 [
     {
         "x_event_type" : "thermostat_temperature",
-        "x_timestamp" : "2015-02-22T08:19:04+00:00",
-        "event_id": "830789",
+        "event_id": "11111111-2222-3333-4444-555555555555",
         "thermostat_temperature": 20,
         "errorcode": "",
         "varname": "temperature",
     },
     {
         "x_event_type" : "thermostat_temperature",
-        "x_timestamp" : "2015-02-22T08:20:06+00:00",
-        "event_id": "830789",
+        "event_id": "11111111-2222-3333-6666-555555555555",
         "thermostat_temperature": 22,
         "cause_type": "normal",
         "varname": "temperature",
     }
 ]
 ```
-##### Send Events to multiples objects
+##### To send multiple events to multiple objects:
+
 ```
-//get mnubo client using basic way.
+//private String objectID = "mythermostat0301424";
+
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
-//read event from flat json file
+//build the events
+List<Event> event2Send = new ArrayList<Event>();
+Event event1 = Event.builder()
+                    .withEventType("thermostat_temperature")
+                    .withSmartObject("connect_alpha.6hv135nw00393.81")
+                    .withEventID(UUID.fromString("11111111-2222-3333-4444-555555555555"))
+                    .withTimestamp(DateTime.now())
+                    .withAddedTimeseries("temperature", 20)
+                    .withAddedTimeseries("errorcode", "")
+                    .withAddedTimeseries("varname", "temperature")
+                    .build();
+event2Send.add(event1);
+Event event2 = Event.builder()
+                    .withEventType("light_dimmer.internal")
+                    .withSmartObject("connect_alpha.6hv135nw00393.82")
+                    .withEventID(UUID.fromString("11111111-2222-3333-6666-555555555555"))
+                    .withTimestamp(DateTime.now())
+                    .withAddedTimeseries("light_dimmer", 0)
+                    .withAddedTimeseries("cause_type", "internal")
+                    .withAddedTimeseries("varname", "level")
+                    .withAddedTimeseries("varfunction", "light-dimmer")
+                    .build();
+event2Send.add(event2);
+Event event3 = Event.builder()
+                    .withEventType("mask_masked.internal")
+                    .withSmartObject("connect_alpha.6hv135nw00393.83")
+                    .withEventID(UUID.fromString("11111111-2222-1111-6666-555555555555"))
+                    .withTimestamp(DateTime.now())
+                    .withAddedTimeseries("mask_masked", "Not Masked")
+                    .withAddedTimeseries("cause_type", "internal")
+                    .withAddedTimeseries("varname", "mask-state")
+                    .build();
+event2Send.add(event3);
+
+//send the event
+mnuboEventClient.send( event2Send );
+```
+
+You can also send multiple events to multiple objects using a JSON file:
+
+```
+//get a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//get an Event client interface
+EventsSDK mnuboEventClient = mnuboClient.getEventClient();
+
+//read event from the JSON file
 String event2Besent = ReadingFile( "myEvents.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 EventValues event2Send = SDKMapperUtils.readValue( event2Besent , EventValues.class );
 
 //send the event
 mnuboEventClient.send( event2Send );
 ```
 
-Note that in this case the flat Json file, "myEvents.json", look like:
+The JSON file "myEvents.json" is as follows:
+
 ```
 [
     {
@@ -263,8 +335,7 @@ Note that in this case the flat Json file, "myEvents.json", look like:
             "x_device_id" :"connect_alpha.6hv135nw00393.81"
         },
         "x_event_type": "thermostat_temperature",
-        "x_timestamp": "2015-02-22T08:19:04+00:00",
-        "event_id": "830789",
+        "event_id": "11111111-2222-3333-4444-555555555555",
         "thermostat_temperature": 20,
         "cause_type": null,
         "errorcode": "",
@@ -276,8 +347,7 @@ Note that in this case the flat Json file, "myEvents.json", look like:
             "x_device_id" :"connect_alpha.6hv135nw00393.82"
         },
         "x_event_type": "light_dimmer.internal",
-        "x_timestamp": "2014-10-30T21:46:10+00:00",
-        "event_id": "920534",
+        "event_id": "11111111-2222-3333-6666-555555555555",
         "light_dimmer": 0,
         "cause_type": "internal",
         "errorcode": null,
@@ -291,7 +361,7 @@ Note that in this case the flat Json file, "myEvents.json", look like:
         },
         "x_event_type": "mask_masked.internal",
         "x_timestamp": "2014-10-30T21:46:10+00:00",
-        "event_id": "2350139",
+        "event_id": "11111111-2222-1111-6666-555555555555",
         "mask_masked": "Not Masked",
         "cause_type": "internal",
         "errorcode": null,

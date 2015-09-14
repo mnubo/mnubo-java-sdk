@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 import com.mnubo.java.sdk.client.mapper.SDKObjectMapperConfig;
 
-public class HttpRestTemplate {
+class HttpRestTemplate {
     private RestTemplate restTemplate;
 
     HttpRestTemplate(MnuboSDKConfig config) {

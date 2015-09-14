@@ -45,7 +45,7 @@ public class SmartObjectDeserializer extends StdDeserializer<SmartObject> {
             JsonProcessingException {
         SmartObject.SmartObjectBuilder builder = SmartObject.builder();
 
-        Map<String, Object> items = SDKMapperUtils.readValuesAsMapObject(jsonParser);
+        Map<String, Object> items = SDKMapperUtils.readValuesAsMap(jsonParser, String.class, Object.class);
         for (Map.Entry<String, Object> entry : items.entrySet()) {
             if (entry.getKey().equals(DEVICE_ID)) {
                 builder.withDeviceId(entry.getValue().toString());

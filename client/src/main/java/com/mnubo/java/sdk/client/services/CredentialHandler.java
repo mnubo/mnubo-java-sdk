@@ -32,7 +32,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 
-public class CredentialHandler {
+class CredentialHandler {
     private static long FLETCHING_TOKEN_MILISEC = 5000;
     private MnuboSDKConfig config;
     private Token credentials;
