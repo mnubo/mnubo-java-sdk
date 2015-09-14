@@ -1,67 +1,67 @@
 # mnubo Java SDK
-This Java SDK client provides you a wrapper to connect your Java application to our mnubo's API.
+To connect your Java application to our API use the mnubo Java SDK.
 
-## Geting started
+## Getting started
 ---
 Include the mnubo client in your Java application using:
 
 ### Maven
-Add the following dependencies into your pom.xml:
+Add the following into your pom.xml:
 ```
 <dependency>
-	<groupId>com.mnubo</groupId>
+    <groupId>com.mnubo</groupId>
     <artifactId>java-sdk-client</artifactId>
     <scope>compile</scope>
     <version>1.1.2</version>
 </dependency>
 ```
 ### Download source code
-Download the source code and include it in your Java Application project. All codes are available in **mnubo-java-sdk-client**.
+Download the source code and include it in your Java Application project. All codes are available in the **mnubo-java-sdk-client**.
 
-## Configuration
+## Usage
 ---
-A number of parameters must be configured before using the mnubo client. See section usage for more information.
 
-- **Mandatory parameters:**
+### Configuration
+The following parameters must be configured before using the mnubo client:
+
     - **hostname**.- mnubo's server name, for example: ```rest.sandbox.mnubo.com```.
     - **consumer-key**.- Your unique client identity which is provided by mnubo.
     - **consumer-secret**.- Your secret key which is used in conjunction with the consumer key to access the mnubo server. This key is provided by mnubo.
 
-## Usage
----
-Build a mnuboSDKClient instance. This provides all the interfaces required to use this library.
-
 ### Getting a "MnuboSDKClient" (client) instance
-To get a client instance use **"MnuboSDKFactory" Class**. Note that:
-1. You need only one client instance. Internally it provides you multithread support (thread safe) and a pool of connections.
-2. All initializations and configuration are done by factory class.
+To get a client instance use the **"MnuboSDKFactory" Class**. Note that you only need one client instance. We provide multithreading support and a pool of connection.
 
-There are two ways to get a client instance.:
-- **Basic**, Only 3 mandatory parameters are required – Host, consumer key and consumer secret. Please see the example below:
+There are two ways to obtain a client instance:
+
+- **Basic**
+Using the basic method three mandatory parameters are required – Host, consumer key and consumer secret. Please see the example below:
+
 
 ```
+//Example:
 //Configure constants
 private final String HOST = "rest.sandbox.mnubo.com";
 private final String CONSUMER_KEY = "your consumer key!!!";
 private final String CONSUMER_SECRET = "your consumer SECRET!!!";
 
-//getting mnubo client using simple way, taken default values.
+//Obtain a client instance using default values.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 ```
 
-- **Advanced**, this allows configure default parameters using a properties file. Please ask for more information about this option.
+- **Advanced**
+Using this method you configure mandatory and optional parameters in a properties file. If you wish to use this method please contact mnubo.
 
-#### creating Owners
+#### Creating Owners
 To create an owner you need to:
-1. Request an OwnersSDK interface from the mnubo client instance.
+1. Request an OwnersSDK interface using the mnubo client instance.
 2. Build an owner.
 
-Here is an example:
+This example describes how to create an Owner:
 ```
-//get mnubo client using basic way.
+//Request a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Owners client interface
+//get an Owners client interface
 OwnersSDK mnuboOwnersClient = mnuboClient.getOwnerClient();
 
 //build the owner
@@ -78,7 +78,27 @@ Owner Owner2Create = Owner.builder()
 mnuboOwnersClient.create( Owner2Create );
 ```
 
-Note that the same Owner created above can be deserialized using the a flat Json file as following, "myOwnerFile.json" file:
+You can also create an owner using a JSON file:
+
+```
+//get a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//get an Owners client interface
+OwnersSDK mnuboOwnersClient = mnuboClient.getOwnerClient();
+
+//read the Owner from the JSON file
+String owner2BePosted = ReadingFile( "myOwnerFile.json" );
+
+//deserialise the JSON file
+Owner owner2Create = SDKMapperUtils.readValue( owner2BePosted , Owner.class );
+
+//create the owner
+mnuboOwnersClient.create( owner2Create );
+```
+
+The JSON file "myOwnerFile.json" is as follows:
+
 ```
 {
   "username":"john.smith@mycompany.com",
@@ -90,35 +110,16 @@ Note that the same Owner created above can be deserialized using the a flat Json
 }
 ```
 
-And create it using "SDKMapperUtils" singleton deserializer as:
-
-```
-//get mnubo client using basic way.
-MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
-
-//get Owners client interface
-OwnersSDK mnuboOwnersClient = mnuboClient.getOwnerClient();
-
-//read Owner from flat json file
-String owner2BePosted = ReadingFile( "myOwnerFile.json" );
-
-//deserialise the json file
-Owner owner2Create = SDKMapperUtils.readValue( owner2BePosted , Owner.class );
-
-//create the owner
-mnuboOwnersClient.create( owner2Create );
-```
-
-#### creating SmartObjects
+#### Creating SmartObjects
 To create a SmartObject:
-1. Request an OwnersSDK interface from the mnubo client instance.
+1. Request an ObjectSDK interface from the mnubo client instance.
 2. Build an object.
 
 ```
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Object client interface
+//get an Object client interface
 ObjectsSDK mnuboObjectClient = mnuboClient.getObjectClient();
 
 //build the owner
@@ -137,26 +138,27 @@ SmartObject object2Create = SmartObject.builder()
 mnuboObjectClient.create( object2Create );
 ```
 
-or using Json deserializable files:
+You can also create an object using a JSON file
 
 ```
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Object client interface
+//get an Object client interface
 ObjectsSDK mnuboObjectClient = mnuboClient.getObjectClient();
 
-//read Object from flat json file
+//read the Object from the JSON file
 String object2BePosted = ReadingFile( "myObjectFile.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 SmartObject object2Create = SDKMapperUtils.readValue( object2BePosted , SmartObject.class );
 
 //create the object
 mnuboObjectClient.create( object2Create );
 ```
 
-Note that this case the flat Json file, "myObjectFile.json", look like:
+The JSON file "myObjectFile.json" is as follows:
+
 ```
 {
     "x_device_id" : "connect_alpha.6hv135nw00393.1234567",
@@ -173,20 +175,20 @@ Note that this case the flat Json file, "myObjectFile.json", look like:
 }
 ```
 
-#### Send Events
+#### Sending Events
 To send events:
 1. Request an OwnersSDK interface from the mnubo client instance.
 2. Build an event.
 
-##### Send Events to single object
+##### To send multiple events to a single object:
 
 ```
 //private String objectID = "mythermostat0301424";
 
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
 //build the events
@@ -214,28 +216,29 @@ event2Send.add(event2);
 mnuboEventClient.send( objectID, event2Send );
 ```
 
-or using Json deserializable files:
+You can also send multiple events to a single object using a JSON file:
 
 ```
 //private String objectID = "mythermostat0301424";
 
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
-//read event from flat json file
+//read the event from the JSON file
 String event2BeSent = ReadingFile( "myEvents.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 EventValues event2Send = SDKMapperUtils.readValue( event2BeSent , Events.class );
 
 //send the event
 mnuboEventClient.send( objectID, event2Send );
 ```
 
-Note that in this case the flat Json file, "myEventsByObjectFile.json", look like:
+The JSON file " myEventsByObjectFile.json " is as follows:
+
 ```
 [
     {
@@ -254,15 +257,15 @@ Note that in this case the flat Json file, "myEventsByObjectFile.json", look lik
     }
 ]
 ```
-##### Send Events to multiples objects
+##### To send multiple events to multiple objects:
 
 ```
 //private String objectID = "mythermostat0301424";
 
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
 //build the events
@@ -303,26 +306,27 @@ event2Send.add(event3);
 mnuboEventClient.send( event2Send );
 ```
 
-or using Json deserializable files:
+You can also send multiple events to multiple objects using a JSON file:
 
 ```
-//get mnubo client using basic way.
+//get a mnubo client using the basic method.
 MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
 
-//get Event client interface
+//get an Event client interface
 EventsSDK mnuboEventClient = mnuboClient.getEventClient();
 
-//read event from flat json file
+//read event from the JSON file
 String event2Besent = ReadingFile( "myEvents.json" );
 
-//deserialise the json file
+//deserialise the JSON file
 EventValues event2Send = SDKMapperUtils.readValue( event2Besent , EventValues.class );
 
 //send the event
 mnuboEventClient.send( event2Send );
 ```
 
-Note that in this case the flat Json file, "myEvents.json", look like:
+The JSON file "myEvents.json" is as follows:
+
 ```
 [
     {
