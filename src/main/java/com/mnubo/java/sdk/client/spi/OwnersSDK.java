@@ -31,4 +31,12 @@ public interface OwnersSDK {
      */
     void create(Owner owner);
 
+    /**
+     * Allows an owner claim an Object.
+     *
+     * @param username, Owner's username how claims the object.
+     * @param deviceId, Object's deviceId of the Object claimed.
+     */
+    void claim(String username, String deviceId);
+
 }

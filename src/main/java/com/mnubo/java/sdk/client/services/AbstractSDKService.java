@@ -32,12 +32,20 @@ abstract class AbstractSDKService {
         this.config = config;
     }
 
+    protected void postRequest(String url) {
+        // entity
+        HttpEntity<?> request = new HttpEntity<Object>(getAutorizationHeader());
+
+        template.postForEntity(url, request, String.class);
+    }
+
     protected <T> T postRequest(String url, Class<T> objectClass, Object object) {
         // entity
         HttpEntity<?> request = new HttpEntity<Object>(object, getAutorizationHeader());
 
         // send request
         return template.postForObject(url, request, objectClass);
+
     }
 
     protected HttpHeaders getAutorizationHeader() {

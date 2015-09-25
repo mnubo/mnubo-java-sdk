@@ -41,4 +41,18 @@ class OwnersSDKServices extends AbstractSDKService implements OwnersSDK {
 
     }
 
+    @Override
+    public void claim(String username, String deviceId) {
+
+        // url
+        final String url = UriComponentsBuilder.newInstance().host(getConfig().getHostName())
+                .port(getConfig().getPlatformPort()).scheme(getConfig().getHttpProtocol())
+                .path(getConfig().getHttpBasePath() + OWNER_PATH + "/" + username + "/objects/" + deviceId + "/claim")
+                .build().toString();
+
+        // posting
+        postRequest(url);
+
+    }
+
 }
