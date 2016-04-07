@@ -558,6 +558,95 @@ The JSON file "myEvents.json" is as follows:
 ]
 ```
 
+#### Search Basic
+To Send a Basic Search Query you need to:
+1. Request an SearchSDK interface using the mnubo client instance.
+2. Build a query in a String.
+
+This example describes how to create a request for a Basic Search Query:
+```
+//Request a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//Get a Search client interface
+SearchSDK mnuboSearchClient = mnuboClient.getSearchClient();
+
+//build the query
+String query = "{ \"from\": \"event\", \"select\": [ {\"value\": \"speed\"} ] }";
+
+//Send Basic Search Query that will return a SearchResultSet
+SearchResultSet searchResultSet = mnuboSearchClient.search( query );
+```
+
+You can use the data return by the Basic Search Query.
+
+```
+// Get all the column with label and Type
+List<ColumnDefinition> columns = searchResultSet.getColumnDefinitions();
+
+// Get all the Search Rows (including column definitions)
+List<SearchRow> searchRows = searchResultSet.getRowsData();
+
+// Get all the column with label and Type from a Search Rows <line number>
+List<ColumnDefinition> columns = searchRows.get(<line number>).getColumnDefinitions();
+
+// Iterator can be used to got through searchResultSet (rows)
+
+    while (searchResultSet.iterator().hasNext()) {
+        SearchRow searchRow = searchResultSet.iterator().next();
+
+        // Get Column Definitions for the Search Row
+        List<ColumnDefinition> columnDefinitions = searchRow.getColumnDefinitions();
+        
+        // You need to find the dataType to get the corresponding value
+        for (ColumnDefinition columnDefinition : columnDefinitions) {
+            String datatype = columnDefinition.getDataType();
+        }
+        
+        // Get data of the row for a specific column :
+        // The search Row method use the datatype (not the High Level Type)
+        // For example if the datatype is "STRING" and we want the data of the column "column1":
+        String stringData = searchRow.getString("column1");
+        
+        // Other Example with when datatype is "DOUBLE" and we want the data of the column "column2":
+        Double doubleData = searchRow.getDouble("column2");
+    }
+```
+
+#### Search DataSets
+To Get the datasets:
+1. Request an SearchSDK interface using the mnubo client instance.
+
+This example describes how to create an request to get the DataSets:
+```
+//Request a mnubo client using the basic method.
+MnuboSDKClient mnuboClient = MnuboSDKFactory.getClient( HOST , CONSUMER_KEY , CONSUMER_SECRET );
+
+//Get a Search client interface
+SearchSDK mnuboSearchClient = mnuboClient.getSearchClient();
+
+//Get the list of DataSet
+List<DataSet> datasets = mnuboSearchClient.getDatasets( query );
+```
+
+You can use the data return by the Basic Search Query.
+
+```
+    for(DataSet dataset: datasets) {
+        String datasetDescription = dataset.getDescription();
+        String datasetDisplayName = dataset.getDisplayName();
+        String datasetKey = dataset.getKey();
+        
+        for(Field field: dataset.getFields()) {
+            ContainerType containerType = field.getContainerType();
+            String fieldDescription = field.getDescription();
+            String fieldDisplayName = field.getDisplayName();
+            String fieldHighLevelType = field.getHighLevelType();
+            String fieldKey = field.getKey();
+        }
+    }
+```
+
 ---
 #<a name="section6"></a>6. Important notes
 

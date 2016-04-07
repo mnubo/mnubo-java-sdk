@@ -1,13 +1,5 @@
 package com.mnubo.java.sdk.client.services;
 
-import com.mnubo.java.sdk.client.models.Event;
-import com.mnubo.java.sdk.client.spi.EventsSDK;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.mnubo.java.sdk.client.Constants.OBJECT_PATH;
 import static com.mnubo.java.sdk.client.services.EventsSDKServices.EVENT_PATH;
 import static com.mnubo.java.sdk.client.services.EventsSDKServices.EVENT_PATH_SEGMENT;
@@ -16,6 +8,15 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.mnubo.java.sdk.client.models.Event;
+import com.mnubo.java.sdk.client.spi.EventsSDK;
+
 /**
  * Created by mauro on 09/03/16.
  */
@@ -23,7 +24,7 @@ public class EventsSDKServicesTest extends AbstractServiceTest {
     private EventsSDK objectClient;
 
     @Before
-    public void ObjectStup() {
+    public void eventSetup() {
         objectClient = getClient().getEventClient();
     }
 
@@ -34,7 +35,7 @@ public class EventsSDKServicesTest extends AbstractServiceTest {
 
         events.add(Event.builder().withEventType("type").build());
 
-        String url = getClient().getSdkService().getBaseUri().path(EVENT_PATH).build().toString();
+        String url = getClient().getSdkService().getIngestionBaseUri().path(EVENT_PATH).build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/events",HOST))));
 
@@ -66,7 +67,7 @@ public class EventsSDKServicesTest extends AbstractServiceTest {
 
         String deviceId = "deviceId";
 
-        String url = getClient().getSdkService().getBaseUri().path(OBJECT_PATH).pathSegment(deviceId, EVENT_PATH_SEGMENT)
+        String url = getClient().getSdkService().getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId, EVENT_PATH_SEGMENT)
                 .build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/objects/%s/events",HOST, deviceId))));

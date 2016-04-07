@@ -12,6 +12,7 @@ import static com.mnubo.java.sdk.client.Constants.CLIENT_MAX_TOTAL_CONNECTION;
 import static com.mnubo.java.sdk.client.Constants.CLIENT_SOCKET_TIMEOUT;
 import static com.mnubo.java.sdk.client.Constants.HOST_NAME;
 import static com.mnubo.java.sdk.client.Constants.PLATFORM_PORT;
+import static com.mnubo.java.sdk.client.Constants.RESTITUTION_PORT;
 import static com.mnubo.java.sdk.client.Constants.SECURITY_CONSUMER_KEY;
 import static com.mnubo.java.sdk.client.Constants.SECURITY_CONSUMER_SECRET;
 import static com.mnubo.java.sdk.client.utils.ValidationUtils.parseAsBoolean;
@@ -33,6 +34,7 @@ public class MnuboSDKConfig {
     private final String SecurityConsumerSecret;
     // optional variables
     private final int platformPort;
+    private final int restitutionPort;
     private final int authenticationPort;
     private final String scope = DEFAULT_SCOPE;
     private final String httpProtocol;
@@ -49,7 +51,7 @@ public class MnuboSDKConfig {
     private final String basePath;
 
     private MnuboSDKConfig(String hostName, String SecurityConsumerKey, String SecurityConsumerSecret, int platformPort,
-                           int authenticationPort, String httpProtocol, int httpDefaultTimeout,
+                           int restitutionPort, int authenticationPort, String httpProtocol, int httpDefaultTimeout,
                            boolean httpDisableRedirectHandling, String basePath,
                            boolean httpDisableAutomaticRetries, int httpSoketTimeout,
                            int httpMaxTotalConnection, int httpMaxConnectionPerRoute, int httpConnectionTimeout,
@@ -59,6 +61,7 @@ public class MnuboSDKConfig {
         this.SecurityConsumerKey = parseAsString(SecurityConsumerKey, SECURITY_CONSUMER_KEY);
         this.SecurityConsumerSecret = parseAsString(SecurityConsumerSecret, SECURITY_CONSUMER_SECRET);
         this.platformPort = parseAsPort(Integer.toString(platformPort), PLATFORM_PORT);
+        this.restitutionPort = parseAsPort(Integer.toString(restitutionPort), RESTITUTION_PORT);
         this.authenticationPort = parseAsPort(Integer.toString(authenticationPort), AUTHENTICATION_PORT);
         this.httpProtocol = parseAsHttpProtocol(httpProtocol);
         this.httpDefaultTimeout = parseAsInteger(Integer.toString(httpDefaultTimeout), CLIENT_DEFAULT_TIMEOUT);
@@ -83,6 +86,10 @@ public class MnuboSDKConfig {
 
     public int getPlatformPort() {
         return platformPort;
+    }
+
+    public int getRestitutionPort() {
+        return restitutionPort;
     }
 
     public int getAuthenticationPort() {
@@ -164,6 +171,7 @@ public class MnuboSDKConfig {
         private String SecurityConsumerKey;
         private String SecurityConsumerSecret;
         private int platformPort = DEFAULT_HOST_PORT;
+        private int restitutionPort = DEFAULT_HOST_PORT;
         private int authenticationPort = DEFAULT_HOST_PORT;
         private String httpProtocol = DEFAULT_CLIENT_PROTOCOL;
         private boolean httpDisableRedirectHandling = DEFAULT_DISABLE_REDIRECT_HANDLING;
@@ -183,6 +191,11 @@ public class MnuboSDKConfig {
 
         public Builder withPlatformPort(String platformPort) {
             this.platformPort = parseAsPort(platformPort, PLATFORM_PORT);
+            return this;
+        }
+
+        public Builder withRestitutionPort(String restitutionPort) {
+            this.restitutionPort = parseAsPort(restitutionPort, RESTITUTION_PORT);
             return this;
         }
 
@@ -255,7 +268,7 @@ public class MnuboSDKConfig {
         }
 
         public MnuboSDKConfig build() {
-            return new MnuboSDKConfig(hostName, SecurityConsumerKey, SecurityConsumerSecret, platformPort,
+            return new MnuboSDKConfig(hostName, SecurityConsumerKey, SecurityConsumerSecret, platformPort, restitutionPort,
                     authenticationPort, httpProtocol, httpDefaultTimeout, httpDisableRedirectHandling, basePath,
                     httpDisableAutomaticRetries, httpSocketTimeout, httpMaxTotalConnection, httpMaxConnectionPerRoute,
                     httpConnectionTimeout, httpConnectionRequestTimeout);

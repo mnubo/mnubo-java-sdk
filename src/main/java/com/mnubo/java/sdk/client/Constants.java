@@ -12,6 +12,7 @@ public class Constants {
     public static final String CONFIG = "client.config.";
     public static final String HOST_NAME = CONFIG + "hostname";
     public static final String PLATFORM_PORT = CONFIG + "platform-port";
+    public static final String RESTITUTION_PORT = CONFIG + "restitution-port";
     public static final String AUTHENTICATION_PORT = CONFIG + "autentication-port";
     public static final String HTTP_PROTOCOL = CONFIG + "http-protocol";
     public static final String SECURITY = "client.security.";
