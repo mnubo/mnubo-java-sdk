@@ -9,7 +9,7 @@ package com.mnubo.java.sdk.client.spi;
 public interface MnuboSDKClient {
 
     /**
-     * Returns SmartObject Client, giving access to handle mnubo smartObjects.
+     * Returns SmartObject Client, giving access to handle mnubo smartObjects API(s).
      *
      * @return ObjectSDK interface.
      *
@@ -17,7 +17,7 @@ public interface MnuboSDKClient {
     ObjectsSDK getObjectClient();
 
     /**
-     * Returns Event Client, giving access to handle mnubo events.
+     * Returns Event Client, giving access to handle mnubo events API(s).
      *
      * @return EventSDK interface
      *
@@ -25,11 +25,19 @@ public interface MnuboSDKClient {
     EventsSDK getEventClient();
 
     /**
-     * Returns Owner Client, giving access to handle mnubo Owners.
+     * Returns Owner Client, giving access to handle mnubo Owners API(s).
      *
      * @return OwnerSDK interface
      *
      */
     OwnersSDK getOwnerClient();
+
+    /**
+     * Returns Search Client, giving access to handle mnubo Search API(s).
+     *
+     * @return SearchSDK interface
+     *
+     */
+    SearchSDK getSearchClient();
 
 }

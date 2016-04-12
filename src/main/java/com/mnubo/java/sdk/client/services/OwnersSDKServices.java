@@ -18,7 +18,7 @@ class OwnersSDKServices implements OwnersSDK {
     @Override
     public void create(Owner owner) {
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OWNER_PATH).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OWNER_PATH).build().toString();
 
         validNotNull(owner, "Owner body");
         notBlank(owner.getUsername(), "usermame cannot be blank.");
@@ -33,7 +33,7 @@ class OwnersSDKServices implements OwnersSDK {
         notBlank(deviceId, "x_deviceId cannot be blank.");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OWNER_PATH).pathSegment(username, "objects", deviceId, "claim")
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OWNER_PATH).pathSegment(username, "objects", deviceId, "claim")
                                                          .build().toString();
         // posting
         sdkCommonServices.postRequest(url);
@@ -46,7 +46,7 @@ class OwnersSDKServices implements OwnersSDK {
         validNotNull(owner, "Owner body");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OWNER_PATH).pathSegment(username).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OWNER_PATH).pathSegment(username).build().toString();
 
         // putting
         sdkCommonServices.putRequest(url, owner);
@@ -57,7 +57,7 @@ class OwnersSDKServices implements OwnersSDK {
         notBlank(username, "usermame cannot be blank.");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OWNER_PATH).pathSegment(username).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OWNER_PATH).pathSegment(username).build().toString();
 
         // putting
         sdkCommonServices.deleteRequest(url);

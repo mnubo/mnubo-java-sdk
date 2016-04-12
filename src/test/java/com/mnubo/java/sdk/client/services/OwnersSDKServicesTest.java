@@ -1,15 +1,16 @@
 package com.mnubo.java.sdk.client.services;
 
-import com.mnubo.java.sdk.client.models.Owner;
-import com.mnubo.java.sdk.client.spi.OwnersSDK;
-import org.junit.Before;
-import org.junit.Test;
-
 import static com.mnubo.java.sdk.client.services.OwnersSDKServices.OWNER_PATH;
 import static java.lang.String.format;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.mnubo.java.sdk.client.models.Owner;
+import com.mnubo.java.sdk.client.spi.OwnersSDK;
 
 /**
  * Created by mauro on 09/03/16.
@@ -19,7 +20,7 @@ public class OwnersSDKServicesTest extends AbstractServiceTest {
     private OwnersSDK ownerClient;
 
     @Before
-    public void ownerStup() {
+    public void ownerSetup() {
         ownerClient = getClient().getOwnerClient();
     }
 
@@ -28,7 +29,7 @@ public class OwnersSDKServicesTest extends AbstractServiceTest {
 
         Owner owner = Owner.builder().withUsername("test").build();
 
-        String url = getClient().getSdkService().getBaseUri().path(OWNER_PATH).build().toString();
+        String url = getClient().getSdkService().getIngestionBaseUri().path(OWNER_PATH).build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/owners",HOST))));
 
@@ -113,7 +114,7 @@ public class OwnersSDKServicesTest extends AbstractServiceTest {
         String username = "username";
         String deviceId = "deviceId";
 
-        final String url = getClient().getSdkService().getBaseUri().path(OWNER_PATH)
+        final String url = getClient().getSdkService().getIngestionBaseUri().path(OWNER_PATH)
                 .pathSegment(username, "objects", deviceId, "claim").build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/owners/%s/objects/%s/claim",HOST, username,
@@ -127,7 +128,7 @@ public class OwnersSDKServicesTest extends AbstractServiceTest {
 
         String username = "username";
 
-        final String url = getClient().getSdkService().getBaseUri().path(OWNER_PATH).pathSegment(username)
+        final String url = getClient().getSdkService().getIngestionBaseUri().path(OWNER_PATH).pathSegment(username)
                 .build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/owners/%s",HOST, username))));
@@ -160,7 +161,7 @@ public class OwnersSDKServicesTest extends AbstractServiceTest {
 
         String username = "username";
 
-        final String url = getClient().getSdkService().getBaseUri().path(OWNER_PATH).pathSegment(username)
+        final String url = getClient().getSdkService().getIngestionBaseUri().path(OWNER_PATH).pathSegment(username)
                 .build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/owners/%s",HOST, username))));

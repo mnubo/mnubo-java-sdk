@@ -1,24 +1,39 @@
 package com.mnubo.java.sdk.client.services;
 
-import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.*;
-
-import static com.mnubo.java.sdk.client.Constants.*;
+import static com.mnubo.java.sdk.client.Constants.AUTHENTICATION_PORT;
 import static com.mnubo.java.sdk.client.Constants.CLIENT_BASE_PATH;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_CONNECTION_REQUEST_TIMEOUT;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_CONNECT_TIMEOUT;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_DEFAULT_TIMEOUT;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_DISABLE_AUTOMATIC_RETRIES;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_DISABLE_REDIRECT_HANDLING;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_MAX_CONNECTIONS_PER_ROUTE;
 import static com.mnubo.java.sdk.client.Constants.CLIENT_MAX_TOTAL_CONNECTION;
+import static com.mnubo.java.sdk.client.Constants.CLIENT_SOCKET_TIMEOUT;
+import static com.mnubo.java.sdk.client.Constants.HOST_NAME;
+import static com.mnubo.java.sdk.client.Constants.HTTP_PROTOCOL;
+import static com.mnubo.java.sdk.client.Constants.PLATFORM_PORT;
+import static com.mnubo.java.sdk.client.Constants.SECURITY_CONSUMER_KEY;
+import static com.mnubo.java.sdk.client.Constants.SECURITY_CONSUMER_SECRET;
 import static java.lang.String.format;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.springframework.web.client.RestTemplate;
+
+import com.mnubo.java.sdk.client.config.MnuboSDKConfig;
 
 /**
  * Created by mauro on 09/03/16.
@@ -196,7 +211,7 @@ public class MnuboSDKClientTest {
     }
 
     @Test
-    public void defaultUrlConfig() {
+    public void defaulIngestiontUrlConfig() {
 
         String hostname = "host";
         config = MnuboSDKConfig.builder().withHostName(hostname).withSecurityConsumerKey("CK")
@@ -204,12 +219,25 @@ public class MnuboSDKClientTest {
 
         client = new MnuboSDKClientImpl(config, restTemplate, credentials);
 
-        assertThat(client.getSdkService().getBaseUri().build().toString(),
+        assertThat(client.getSdkService().getIngestionBaseUri().build().toString(),
                 is(equalTo(format("https://%s:443/api/v3",hostname))));
     }
 
     @Test
-    public void customUrlConfig() {
+    public void defaulRestitutiontUrlConfig() {
+
+        String hostname = "host";
+        config = MnuboSDKConfig.builder().withHostName(hostname).withSecurityConsumerKey("CK")
+                .withSecurityConsumerSecret("CS").build();
+
+        client = new MnuboSDKClientImpl(config, restTemplate, credentials);
+
+        assertThat(client.getSdkService().getRestitutionBaseUri().build().toString(),
+                is(equalTo(format("https://%s:443/api/v3", hostname))));
+    }
+
+    @Test
+    public void customIngestionUrlConfig() {
 
         String hostname = "host";
         String basePath = "my/base/path";
@@ -220,7 +248,23 @@ public class MnuboSDKClientTest {
 
         client = new MnuboSDKClientImpl(config, restTemplate, credentials);
 
-        assertThat(client.getSdkService().getBaseUri().build().toString(),
+        assertThat(client.getSdkService().getIngestionBaseUri().build().toString(),
                 is(equalTo(format("%s://%s:%s/%s",protocol, hostname, port, basePath))));
+    }
+
+    @Test
+    public void customRestitutionUrlConfig() {
+
+        String hostname = "host";
+        String basePath = "my/base/path";
+        String port = "5657";
+        String protocol = "http";
+        config = MnuboSDKConfig.builder().withHostName(hostname).withHttpBasePath(basePath).withRestitutionPort(port)
+                .withHttpProtocol(protocol).withSecurityConsumerKey("CK").withSecurityConsumerSecret("CS").build();
+
+        client = new MnuboSDKClientImpl(config, restTemplate, credentials);
+
+        assertThat(client.getSdkService().getRestitutionBaseUri().build().toString(),
+                is(equalTo(format("%s://%s:%s/%s", protocol, hostname, port, basePath))));
     }
 }

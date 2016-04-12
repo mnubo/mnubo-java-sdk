@@ -1,21 +1,31 @@
 package integration;
 
-import com.mnubo.java.sdk.client.models.Event;
-import com.mnubo.java.sdk.client.models.Owner;
-import com.mnubo.java.sdk.client.models.SmartObject;
-import com.mnubo.java.sdk.client.services.MnuboSDKFactory;
-import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
+import static java.lang.String.format;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import java.util.*;
 
-import static java.lang.String.format;
-import static org.junit.Assert.fail;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import com.mnubo.java.sdk.client.models.DataSet;
+import com.mnubo.java.sdk.client.models.Event;
+import com.mnubo.java.sdk.client.models.Owner;
+import com.mnubo.java.sdk.client.models.SearchResultSet;
+import com.mnubo.java.sdk.client.models.SmartObject;
+import com.mnubo.java.sdk.client.services.MnuboSDKFactory;
+import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 
 /*
 CHANGE_ME: YOU MUST REMOVE OR COMMENT OUT THE 'IGNORE' ANNOTATION TO RUN YOUR INTEGRATION TEST.
@@ -146,6 +156,13 @@ public class SdkClientIntegrationTest {
          */
         put(" < CHANGE_ME: PUT HERE THE ATTRIBUTE'S NAME > ", " < CHANGE_ME: PUT HERE ITS VALUE > ");
     }};
+    
+    private final String QUERY = 
+            /*
+            CHANGE_ME: YOU MUST MODIFY HERE THE QUERY SENT TO THE SEARCH API(S)
+            Example: "{ \"from\": \"event\", \"select\": [ {\"value\": \"speed\"} ] }"
+            */
+            "{ CHANGE_ME }";
 
     MnuboSDKClient client = MnuboSDKFactory.getClient(HOSTNAME, CONSUMER_KEY, CONSUMER_SECRET);
 
@@ -546,5 +563,54 @@ public class SdkClientIntegrationTest {
         client.getOwnerClient().delete(OWNER_USERNAME_WITH_OWNER_LINK);
         client.getObjectClient().delete(DEVICE_ID);
         client.getObjectClient().delete(DEVICE_ID_WITH_OWNER_LINK);
+    }
+    
+    @Test
+    public void T060_SearchBasic() {
+        try {
+            // Perform a Basic Search
+            SearchResultSet searchResultSet = client.getSearchClient().search(QUERY);
+            
+            assertNotNull("Search Result is NULL", searchResultSet);
+
+        }
+        catch (HttpClientErrorException ex) {
+
+            log.error(format("Error code: %s, Error Message: %s", ex.getStatusCode(), ex.getResponseBodyAsString()),
+                    ex);
+            fail();
+        }
+        catch (Exception ex) {
+
+            log.error(format("Error Message: %s", ex.getMessage()), ex);
+            fail();
+        }
+    }
+
+    @Test
+    public void T060_SearchDataset() {
+        try {
+            // Perform a Basic Search
+            List<DataSet> datasets = client.getSearchClient().getDatasets();
+            
+            assertNotNull(datasets);
+            assertTrue("Dataset size = 0", datasets.size() > 0);
+
+        } catch (HttpClientErrorException ex) {
+
+            log.error(
+                    format(
+                            "Error code: %s, Error Message: %s",
+                            ex.getStatusCode(),
+                            ex.getResponseBodyAsString()
+                    ),
+                    ex
+            );
+            fail();
+        } catch (Exception ex) {
+
+            log.error(format("Error Message: %s",ex.getMessage()), ex);
+            fail();
+        }
     }
 }

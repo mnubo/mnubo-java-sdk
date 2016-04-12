@@ -1,15 +1,16 @@
 package com.mnubo.java.sdk.client.services;
 
-import com.mnubo.java.sdk.client.models.SmartObject;
-import com.mnubo.java.sdk.client.spi.ObjectsSDK;
-import org.junit.Before;
-import org.junit.Test;
-
 import static com.mnubo.java.sdk.client.Constants.OBJECT_PATH;
 import static java.lang.String.format;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.mnubo.java.sdk.client.models.SmartObject;
+import com.mnubo.java.sdk.client.spi.ObjectsSDK;
 
 /**
  * Created by mauro on 09/03/16.
@@ -18,7 +19,7 @@ public class ObjectsSDKServicesTest extends AbstractServiceTest {
     private ObjectsSDK objectClient;
 
     @Before
-    public void ObjectStup() {
+    public void objectSetup() {
         objectClient = getClient().getObjectClient();
     }
 
@@ -27,7 +28,7 @@ public class ObjectsSDKServicesTest extends AbstractServiceTest {
 
         SmartObject object = SmartObject.builder().withObjectType("type").withDeviceId("device").build();
 
-        String url = getClient().getSdkService().getBaseUri().path(OBJECT_PATH).build().toString();
+        String url = getClient().getSdkService().getIngestionBaseUri().path(OBJECT_PATH).build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/objects",HOST))));
 
@@ -87,7 +88,7 @@ public class ObjectsSDKServicesTest extends AbstractServiceTest {
 
         String deviceId = "deviceId";
 
-        final String url = getClient().getSdkService().getBaseUri().path(OBJECT_PATH).pathSegment(deviceId)
+        final String url = getClient().getSdkService().getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId)
                 .build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/objects/%s",HOST, deviceId))));
@@ -120,7 +121,7 @@ public class ObjectsSDKServicesTest extends AbstractServiceTest {
 
         String deviceId = "deviceId";
 
-        final String url = getClient().getSdkService().getBaseUri().path(OBJECT_PATH).pathSegment(deviceId)
+        final String url = getClient().getSdkService().getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId)
                 .build().toString();
 
         assertThat(url, is(equalTo(format("https://%s:443/api/v3/objects/%s",HOST, deviceId))));

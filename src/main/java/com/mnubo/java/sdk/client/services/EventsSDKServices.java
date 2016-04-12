@@ -26,7 +26,7 @@ class EventsSDKServices implements EventsSDK {
         notNullNorEmpty(events, "Event list cannot be null or empty.");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OBJECT_PATH).pathSegment(deviceId, EVENT_PATH_SEGMENT)
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId, EVENT_PATH_SEGMENT)
                 .build().toString();
 
         // posting
@@ -38,7 +38,7 @@ class EventsSDKServices implements EventsSDK {
 
         notNullNorEmpty(events, "Event list cannot be null or empty.");
 
-    	final String url = sdkCommonServices.getBaseUri().path(EVENT_PATH).build().toString();
+    	final String url = sdkCommonServices.getIngestionBaseUri().path(EVENT_PATH).build().toString();
     	sdkCommonServices.postRequest(url, Event.class, events);
     }
 }

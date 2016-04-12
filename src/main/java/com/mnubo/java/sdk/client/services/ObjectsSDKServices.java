@@ -18,7 +18,7 @@ class ObjectsSDKServices implements ObjectsSDK {
     @Override
     public void create(SmartObject object) {
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OBJECT_PATH).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OBJECT_PATH).build().toString();
 
         validNotNull(object, "Object body");
         notBlank(object.getObjectType(), "x_object_Type cannot be blank.");
@@ -35,7 +35,7 @@ class ObjectsSDKServices implements ObjectsSDK {
         validNotNull(object, "Object body");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OBJECT_PATH).pathSegment(deviceId).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId).build().toString();
 
         // putting
         sdkCommonServices.putRequest(url, object);
@@ -46,7 +46,7 @@ class ObjectsSDKServices implements ObjectsSDK {
         notBlank(deviceId, "x_device_Id cannot be blank.");
 
         // url
-        final String url = sdkCommonServices.getBaseUri().path(OBJECT_PATH).pathSegment(deviceId).build().toString();
+        final String url = sdkCommonServices.getIngestionBaseUri().path(OBJECT_PATH).pathSegment(deviceId).build().toString();
 
         // putting
         sdkCommonServices.deleteRequest(url);

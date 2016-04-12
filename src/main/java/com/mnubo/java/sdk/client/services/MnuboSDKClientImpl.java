@@ -7,11 +7,13 @@ import com.mnubo.java.sdk.client.spi.EventsSDK;
 import com.mnubo.java.sdk.client.spi.MnuboSDKClient;
 import com.mnubo.java.sdk.client.spi.ObjectsSDK;
 import com.mnubo.java.sdk.client.spi.OwnersSDK;
+import com.mnubo.java.sdk.client.spi.SearchSDK;
 
 final class MnuboSDKClientImpl implements MnuboSDKClient {
     private final ObjectsSDK objectCLient;
     private final OwnersSDK ownerCLient;
     private final EventsSDK eventCLient;
+    private final SearchSDK searchCLient;
     private final SDKService sdkService;
 
     MnuboSDKClientImpl(MnuboSDKConfig config, RestTemplate restTemplate, CredentialHandler credentials) {
@@ -23,6 +25,7 @@ final class MnuboSDKClientImpl implements MnuboSDKClient {
         objectCLient = new ObjectsSDKServices(sdkService);
         eventCLient = new EventsSDKServices(sdkService);
         ownerCLient = new OwnersSDKServices(sdkService);
+        searchCLient = new SearchSDKServices(sdkService);
     }
 
     @Override
@@ -40,8 +43,12 @@ final class MnuboSDKClientImpl implements MnuboSDKClient {
         return ownerCLient;
     }
 
-    public SDKService getSdkService()
-    {
+    @Override
+    public SearchSDK getSearchClient() {
+        return searchCLient;
+    }
+
+    public SDKService getSdkService() {
         return sdkService;
     }
 }
